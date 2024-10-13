@@ -1,7 +1,7 @@
 # crc32
 
 This repository calculates a Cyclic Redundancy Check (CRC) for a 32 bit number without a table.
-Since no table is used, a 32-bit number can be used as data as well as a polynomial.
+Since no table is used, 32-bit numbers can be used both as data and as polynomials.
 
 Very good sources are:
 
