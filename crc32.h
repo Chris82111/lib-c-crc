@@ -52,7 +52,13 @@ uint32_t push_over_to_left(uint32_t data, uint32_t most_significant_bit);
 //!         E.g. get_zero_based_bit(get_most_significant_bit(polynomial));
 //!         Use a constant to speed up the calculation.
 //! @return The calculated checksum
-uint32_t crc32(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit);
+uint32_t crc32_speed(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit);
+
+//! @brief  Function for calculating a crc
+//! @param  data The data on which you want to create the checksum
+//! @param  polynomial Check polynomial, highest and lowest bit must be a 1.
+//! @return The calculated checksum
+uint32_t crc32(uint32_t data, uint32_t polynomial);
 
 //! @brief  Function for checking whether the specified checksum matches the data
 //! @param  data The data on which you want to create the checksum
@@ -65,7 +71,15 @@ uint32_t crc32(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit);
 //! @param  checksum The checksum to be validated
 //! @return true  The checksum matches the data and the polynomial
 //! @return false The checksum does not match the data and the polynomial
-bool crc32_check(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit, uint32_t checksum);
+bool crc32_check_speed(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit, uint32_t checksum);
+
+//! @brief  Function for checking whether the specified checksum matches the data
+//! @param  data The data on which you want to create the checksum
+//! @param  polynomial Check polynomial, highest and lowest bit must be a 1.
+//! @param  checksum The checksum to be validated
+//! @return true  The checksum matches the data and the polynomial
+//! @return false The checksum does not match the data and the polynomial
+bool crc32_check(uint32_t data, uint32_t polynomial, uint32_t checksum);
 
 
 /*---------------------------------------------------------------------*

@@ -2,19 +2,11 @@
  *  private: include files
  *---------------------------------------------------------------------*/
 
+#include "crc32_tb.h"
+
 #include <stdbool.h>
-#include <stdint.h>
 
 #include "crc32.h"
-
-
-/*---------------------------------------------------------------------*
- *  info:
- *---------------------------------------------------------------------*/
-
-// To use the test functions, copy the prototype into your file:
-uint8_t crc32_test_execution(uint32_t data, uint32_t polynomial, uint32_t example_checksum);
-uint8_t crc32_tests(void);
 
 
 /*---------------------------------------------------------------------*
@@ -32,11 +24,12 @@ uint8_t crc32_tests(void);
 /*---------------------------------------------------------------------*
  *  private: function prototypes
  *---------------------------------------------------------------------*/
+
+uint8_t crc32_test_execution(uint32_t data, uint32_t polynomial, uint32_t example_checksum);
+
+
 /*---------------------------------------------------------------------*
  *  private: functions
- *---------------------------------------------------------------------*/
-/*---------------------------------------------------------------------*
- *  public:  functions
  *---------------------------------------------------------------------*/
 
 uint8_t crc32_test_execution(uint32_t data, uint32_t polynomial, uint32_t example_checksum)
@@ -46,19 +39,24 @@ uint8_t crc32_test_execution(uint32_t data, uint32_t polynomial, uint32_t exampl
     uint32_t left_hand_polynomial;
     uint8_t bit;
     bool equal;
-    
+
     most_significant_bit = get_most_significant_bit(polynomial);
     left_hand_polynomial = push_over_to_left(polynomial, most_significant_bit);
     bit = get_zero_based_bit(most_significant_bit);
-    
-    checksum = crc32(data, left_hand_polynomial, bit);
-    if(checksum != example_checksum) { return 1; }
-    
-    equal = crc32_check(data, left_hand_polynomial, bit, checksum);
-    if(false == equal){ return 1; }
-    
+
+    checksum = crc32_speed(data, left_hand_polynomial, bit);
+    if (checksum != example_checksum) { return 1; }
+
+    equal = crc32_check_speed(data, left_hand_polynomial, bit, checksum);
+    if (false == equal) { return 1; }
+
     return 0;
 }
+
+
+/*---------------------------------------------------------------------*
+ *  public:  functions
+ *---------------------------------------------------------------------*/
 
 uint8_t crc32_tests(void)
 {

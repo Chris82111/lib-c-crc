@@ -124,19 +124,32 @@ uint32_t push_over_to_left(uint32_t data, uint32_t most_significant_bit)
     }
 }
 
-uint32_t crc32(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit)
+uint32_t crc32_speed(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit)
 {
     // Runs through the loop until the zero flag is set.
-    for(int i = 32; 0 != i; --i)
+    for (int i = 32; 0 != i; --i)
     {
         // Checks whether the negative flag (most significant bit (MSB)) is set.
-        if(0 > (int32_t)data){ data ^= left_hand_polynomial; }
+        if (0 > (int32_t)data) { data ^= left_hand_polynomial; }
         data <<= 1;
     }
     return data >> (32 - bit);
 }
 
-bool crc32_check(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit, uint32_t checksum)
+uint32_t crc32(uint32_t data, uint32_t polynomial)
+{
+    uint32_t most_significant_bit;
+    uint32_t left_hand_polynomial;
+    uint8_t bit;
+
+    most_significant_bit = get_most_significant_bit(polynomial);
+    left_hand_polynomial = push_over_to_left(polynomial, most_significant_bit);
+    bit = get_zero_based_bit(most_significant_bit);
+
+    return crc32_speed(data, left_hand_polynomial, bit);
+}
+
+bool crc32_check_speed(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit, uint32_t checksum)
 {
     for (int i = 32; 0 != i; --i)
     {
@@ -144,6 +157,19 @@ bool crc32_check(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit, uint
         data <<= 1;
     }
     return checksum == (data >> (32 - bit));
+}
+
+bool crc32_check(uint32_t data, uint32_t polynomial, uint32_t checksum)
+{
+    uint32_t most_significant_bit;
+    uint32_t left_hand_polynomial;
+    uint8_t bit;
+
+    most_significant_bit = get_most_significant_bit(polynomial);
+    left_hand_polynomial = push_over_to_left(polynomial, most_significant_bit);
+    bit = get_zero_based_bit(most_significant_bit);
+
+    return crc32_check_speed(data, left_hand_polynomial, bit, checksum);
 }
 
 
