@@ -126,10 +126,10 @@ uint32_t push_over_to_left(uint32_t data, uint32_t most_significant_bit)
 
 uint32_t crc32(uint32_t data, uint32_t left_hand_polynomial, uint8_t bit)
 {
-	// Runs through the loop until the zero flag is set.
+    // Runs through the loop until the zero flag is set.
     for(int i = 32; 0 != i; --i)
     {
-		// Checks whether the negative flag (most significant bit (MSB)) is set.
+        // Checks whether the negative flag (most significant bit (MSB)) is set.
         if(0 > (int32_t)data){ data ^= left_hand_polynomial; }
         data <<= 1;
     }
